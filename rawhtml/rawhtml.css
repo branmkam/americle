@@ -1,0 +1,21 @@
+body {
+    background-color: #162344;
+    font-family:"Trebuchet MS";
+    color: white;
+    text-align: center;
+  }
+  
+  h1
+  {
+    font-size: 36px;
+  }
+  
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }
+  
+  #map
+  {
+    height: 800px;
+  }
