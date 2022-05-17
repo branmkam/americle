@@ -5,13 +5,28 @@
     <script src = "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     
     <link rel = "stylesheet" href = "rawhtml.css"/>
+    <title>Americle</title>
   </head>
   <body>
     <meta charset="utf-8" />
-    <h1>Americle</h1>
+    <div id = 'h'>
+      <h1>Americle</h1>
+      <h3>Can you guess the American city?</h3>
+      <input id = 'enter' type="text"/>
+      <br/>
+      <span><select id="states">Here</select><button id="guess">Guess</button></span>
+      <h4 id = 'resp'>Enter a city above!</h4>
+    </div>
     <div id = 'map'></div>
+    <div id = 'counter'>
+      <table id = "guesses">
+        <tr><th>Guess</th><th>City</th><th>Distance (km)</th></tr>
+      </table>
+    </div>
+
 
     <!--all scripts here-->
+    <script src="uscities.js"></script>
     <script src="mapcreate.js"></script>
   </body>
 </html>
