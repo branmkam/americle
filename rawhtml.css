@@ -22,8 +22,17 @@ body {
   
   #map
   {
-    height: 98vh;
-    z-index: 0;
+      /* Set rules to fill background */
+    min-height: 100%;
+    
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+    
+    /* Set up positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
   }
 
   #guessarea
@@ -37,6 +46,7 @@ body {
     width: 70%;
     font-size: 24px;
     text-align: center;
+    font-family: 'Trebuchet MS';
   }
 
   #guess
@@ -44,11 +54,13 @@ body {
     font-size: 24px;
     color: #162344;
     background-color: white;
+    font-family: 'Trebuchet MS';
   }
 
   #states
   {
     font-size: 24px;
+    font-family: 'Trebuchet MS';
   }
 
 
@@ -57,7 +69,10 @@ body {
     position: fixed;
     z-index: 1;
     width: 100%;
+    top:0;
+    left:0;
     background-color: #16234477;
+    padding-bottom: 15px;
   }
 
   #counter
@@ -67,6 +82,7 @@ body {
     width: 300px;
     position: fixed; 
     bottom:0%; 
+    left: 0%;
     background-color: #ffffff77; 
     border-top: 5px solid black;
     border-right: 5px solid black;
@@ -90,4 +106,17 @@ body {
   {
     font-weight: bold;
     font-style:italic;
+  }
+
+  #byline
+  {
+    margin:10px;
+    position:fixed;
+    top:0%;
+    right:0%;
+  }
+
+  #byline a
+  {
+    color: white;
   }
