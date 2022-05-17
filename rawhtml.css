@@ -9,10 +9,10 @@ body {
     font-size: 36px;
   }
 
-  h1, h2, h3, h4, p
+  h1, h2, h3, h4, h5, p
   {
     color: white;
-    margin: 5px;
+    margin: 3px;
   }
   
   code {
@@ -89,4 +89,5 @@ body {
   #tr0
   {
     font-weight: bold;
+    font-style:italic;
   }

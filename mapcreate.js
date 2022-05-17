@@ -33,8 +33,6 @@ var mapOptions = {
 
 // Creating the Layer object
 var layer =  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution:
-        '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
     maxZoom: 5,
     minZoom: 4,
 }).addTo(map);
