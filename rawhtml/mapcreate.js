@@ -41,7 +41,6 @@ var layer =  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 window.map = map;
 
-
 //INIT BUTTON ONCLICK | ENTER EVENT
 let button = id('guess');
 let enter = id('enter');
@@ -151,13 +150,13 @@ function id(id) {
 function addMarker(i) {
     //Add marker
     var circle = L.circleMarker([c.lat[i], c.lng[i]], {
-        color: '#500000',
-        fillColor: chosen_id == i ? '#00bb00' : fillColor,
+        color: '#000000',
+        fillColor: chosen_id == i ? '#00ff33' : fillColor(i, chosen_id),
         fillOpacity: 1,
         radius: 4
     }).addTo(map);
     var st = "#" + (ids.length+1) + ": " + c.city_ascii[i] + ", " + c.state_id[i] + "<br/>" + getDistance(i, chosen_id) + 'km';
-    circle.bindPopup(st).addTo(map);
+    circle.bindPopup(st).addTo(map).openPopup();
 }
 
 function getDistance(i1, i2) {
@@ -183,5 +182,23 @@ function getDistance(i1, i2) {
 
 function fillColor(id, chosen_id) //construct hexcode for color here - do later
 {
-    return '#500000';
+    let distance = getDistance(id, chosen_id);
+    let val = Math.min(250, Math.round(distance/6) - 250);
+    if(val > 0) //far - redder
+    {
+        color = '#fa' + ((250-val) < 16 ? '0' : '') + (250-val).toString(16) + '00';
+    }
+    else //closer - greener
+    {
+        color = '#' +  ((250-(val*-1)) < 16 ? '0' : '') + (250-(val*-1)).toString(16) + 'fa00';
+    }
+    return color;
+}
+
+function thousandCities()
+{
+    for(let j = 0; j < 1000; j++)
+    {
+        addMarker(j);
+    }
 }
