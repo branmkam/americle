@@ -10,6 +10,9 @@ function onlyUnique(value, index, self) {
 const states = Array.from(Object.values(c.state_name));
 const statenames = states.filter(onlyUnique).sort();
 
+const abbrs = Array.from(Object.values(c.state_id));
+const abbrnames = abbrs.filter(onlyUnique).sort();
+
 ids = [];
 canGuess = true;
 firstTime = true;
@@ -94,6 +97,7 @@ var layer =  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 //INIT BUTTON ONCLICK | ENTER EVENT
 let button = id('guess');
 let enter = id('enter');
+enter.placeholder = 'Ex. "Tulsa" or "Reno, NV"';
 button.onclick = checkMarker;
 
 enter.addEventListener("keypress", function(event) {
@@ -138,8 +142,10 @@ document.addEventListener("keypress", function(event) {
 function checkMarker(){
     if(canGuess) 
     {
-        guessText = enter.value.toLowerCase().trim();
+        let guessText = enter.value.toLowerCase().trim();
         guessText = replaceText(guessText, reps); //account for abbreviations and stuff
+        let lenText = guessText.length;
+        let split = guessText.split(',');
 
         closeHow();
 
@@ -147,7 +153,22 @@ function checkMarker(){
         let state = id('states').value;
         let lowercities = citynames.map(x => x.toLowerCase());
         cityId = -1;
-        if(state == 'Any state') //finds largest city across all states
+
+        //check for manual entry
+        if(split.length == 2 && abbrnames.includes(split[1].trim().toUpperCase())) //check for manual state entry
+        {
+            //filter by state abbr
+            let isInState = abbrs.map(s => s == split[1].trim().toUpperCase());
+            for(let index = 0; index < isInState.length; index++)
+            {
+                if(isInState[index] && lowercities[index] == split[0].trim())
+                {
+                    cityId = index;
+                    break;
+                }    
+            }
+        }
+        else if(state == 'Any state') //finds largest city across all states
         {
             cityId = lowercities.findIndex(x => x == guessText);
         }
@@ -216,6 +237,7 @@ function checkMarker(){
             id('guesses').innerHTML = inner;
             id('resp').innerHTML = 'You win in ' + ids.length + ' guesses!';
             cookieIds(); //save to cookie
+            enter.placeholder = 'Well done!';
         }
     }
 }
