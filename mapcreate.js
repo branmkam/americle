@@ -12,7 +12,8 @@ const statenames = states.filter(onlyUnique).sort();
 
 ids = [];
 canGuess = true;
-howToPlay = true;
+firstTime = true;
+geoMode = false;
 
 //COOKIES - set cookie expiration to tomorrow at midnight
 let tom = new Date(new Date().getTime() + 24*60*60*1000);
@@ -83,8 +84,7 @@ var mapOptions = {
 
 // Creating the Layer object
 var layer =  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 5,
-    minZoom: 4,
+    maxZoom: 14,
 }).addTo(map);
 
 
@@ -111,6 +111,25 @@ for(const s in statenames)
     id('states').innerHTML += '<option>' + statenames[s] + '</option>';
 }
 
+//INIT MODE CHOOSE:
+id('mode').innerHTML = `<input type="checkbox" id="modeselect"/> Geographer Mode (no zoom past current level)`
+
+document.addEventListener("keypress", function(event) {
+    if (event.code === "Space" && firstTime) {
+        event.preventDefault();
+        id('modeselect').checked = id('modeselect').checked ? false : true;
+    }
+  });
+
+document.addEventListener("keypress", function(event) {
+    if (event.code === "Escape") {
+        event.preventDefault();
+        closeHow();
+    }
+  });
+ 
+
+
 //FUNCTIONS
 
 function checkMarker(){
@@ -124,7 +143,7 @@ function checkMarker(){
         cityId = -1;
         if(state == 'Any state') //finds largest city across all states
         {
-            cityId = lowercities.findIndex(x => x == enter.value.toLowerCase());
+            cityId = lowercities.findIndex(x => x == enter.value.toLowerCase().trim());
         }
         else
         {
@@ -132,7 +151,7 @@ function checkMarker(){
             let isInState = states.map(s => s == state);
             for(let index = 0; index < isInState.length; index++)
             {
-                if(isInState[index] && lowercities[index] == enter.value.toLowerCase())
+                if(isInState[index] && lowercities[index] == enter.value.toLowerCase().trim())
                 {
                     cityId = index;
                     break;
@@ -260,6 +279,21 @@ function thousandCities()
 function closeHow()
 {
     id('howtoplay').style.display = 'none';
+    if(firstTime)
+    {
+        geoMode = id('modeselect').checked;
+        if(geoMode)
+        {
+            map.removeLayer(layer);
+            var geoLayer =  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 5,
+                minZoom: 4,
+            }).addTo(map);
+            id('geomode').innerHTML = 'Geographer Mode';
+        }
+        id('mode').innerHTML = '';
+    }
+    firstTime = false;
 }
 
 function openHow()
