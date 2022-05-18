@@ -71,7 +71,7 @@ body {
     font-family: 'Trebuchet MS';
   }
 
-  #guess
+  #guess, #prevback
   {
     border-radius: 5px;
     height: 40px;
@@ -79,6 +79,14 @@ body {
     background-color: #3c3b6e;
     color:white;
     font-family: 'Trebuchet MS';
+  }
+
+  #prevback
+  {
+    background-color: #B31942;
+    position: fixed;
+    top:10px;
+    right:10px;
   }
 
   #states
@@ -153,6 +161,14 @@ body {
     right:0%;
   }
 
+  #puzzlenum
+  {
+    margin-top:50px;
+    margin-right:10px;
+    position:fixed;
+    top:0%;
+    right:0%;
+  }
 
   a
   {
@@ -191,4 +207,12 @@ body {
     right:20px;
     color:#3c3b6e;
     background-color: white;
+  }
+
+  #cities p
+  {
+    font-size: 24px;
+    text-align: center;
+    width: 100%;
+    color: #B31942;
   }
