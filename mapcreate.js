@@ -268,31 +268,31 @@ function openHow()
 }
 
 //cookies for future
-// function cookieIds()
-// {
-//     let idsOnly = ids.map(s => s[0]);
-//     let guessesOnly = ids.map(s => s[2]);
-//     let idsString = idsOnly.join('|');
-//     let guessesString = guessesOnly.join('|');
-//     let cookieString = `ids=${idsString}; guesses=${guessesString}; canGuess=${canGuess}; expires=${tom};path=/"`
-//     document.cookie = cookieString; 
-//     console.log(document.cookie);
-//     console.log(getCookie('ids'));
-// }
+function cookieIds()
+{
+    let idsOnly = ids.map(s => s[0]);
+    let guessesOnly = ids.map(s => s[2]);
+    let idsString = idsOnly.join('|');
+    let guessesString = guessesOnly.join('|');
+    let cookieString = `ids=${idsString}; guesses=${guessesString}; canGuess=${canGuess}; expires=${tom};path=/"`
+    document.cookie = cookieString; 
+    console.log(document.cookie);
+    console.log(getCookie('ids'));
+}
 
-// //from w3schools
-// function getCookie(cname) {
-//     let name = cname + "=";
-//     let ca = document.cookie.split(';');
-//     console.log(ca);
-//     for(let i = 0; i < ca.length; i++) {
-//       let c = ca[i];
-//       while (c.charAt(0) == ' ') {
-//         c = c.substring(1);
-//       }
-//       if (c.indexOf(name) == 0) {
-//         return c.substring(name.length, c.length);
-//       }
-//     }
-//     return "";
-//   }
+//from w3schools
+function getCookie(cname) {
+    let name = cname + "=";
+    let ca = document.cookie.split(';');
+    console.log(ca);
+    for(let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
