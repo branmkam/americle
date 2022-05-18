@@ -134,7 +134,7 @@ document.addEventListener("keypress", function(event) {
         closeHow();
     }
   });
- 
+
 
 
 //FUNCTIONS
@@ -259,6 +259,9 @@ function addMarker(i) {
     var st = "#" + (ids.length+1) + ": " + c.city_ascii[i] + ", " + c.state_id[i] + "<br/>" + getDistance(i, chosen_id) + 'mi';
     circle.bindPopup(st).addTo(map).openPopup();
 }
+
+L.control.scale({position: 'bottomright',}).addTo(map);
+
 
 function getDistance(i1, i2) {
     lat1 = c.lat[i1];
