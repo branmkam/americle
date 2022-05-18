@@ -49,6 +49,9 @@ let order = [254,38,0,89,108,106,93,61,4,56,74,111,81,33,205,117,229,235,241,149
 id('puzzlenum').innerHTML = "Puzzle #" + (day+1);
 chosen_id = order[day % number_cities];
 
+//  CITY NAME REPLACEMENTS
+reps = [['st ', 'st. '], ['saint ', 'st. '], ['mt. ', 'mount '], ['mt ', 'mount ']];
+
 
 // //equal-chance state randomizer
 // let abr_statenames = states.slice(0,number_cities).filter(onlyUnique).sort();
@@ -135,6 +138,9 @@ document.addEventListener("keypress", function(event) {
 function checkMarker(){
     if(canGuess) 
     {
+        guessText = enter.value.toLowerCase().trim();
+        guessText = replaceText(guessText, reps); //account for abbreviations and stuff
+
         closeHow();
 
         //FIND CITY ID
@@ -143,7 +149,7 @@ function checkMarker(){
         cityId = -1;
         if(state == 'Any state') //finds largest city across all states
         {
-            cityId = lowercities.findIndex(x => x == enter.value.toLowerCase().trim());
+            cityId = lowercities.findIndex(x => x == guessText);
         }
         else
         {
@@ -151,7 +157,7 @@ function checkMarker(){
             let isInState = states.map(s => s == state);
             for(let index = 0; index < isInState.length; index++)
             {
-                if(isInState[index] && lowercities[index] == enter.value.toLowerCase().trim())
+                if(isInState[index] && lowercities[index] == guessText)
                 {
                     cityId = index;
                     break;
@@ -167,7 +173,7 @@ function checkMarker(){
         }
         else if(ids.map(x => x[0]).includes(cityId)) //largest city w/ name already present
         {
-            id('resp').innerHTML = "Oops! That city already been guessed! Try another!";
+            id('resp').innerHTML = "Oops! That city has already been guessed! Try another!";
         }
         else if(cityId != chosen_id)
         {
@@ -310,15 +316,14 @@ function cookieIds()
     let guessesString = guessesOnly.join('|');
     let cookieString = `ids=${idsString}; guesses=${guessesString}; canGuess=${canGuess}; expires=${tom};path=/"`
     document.cookie = cookieString; 
-    console.log(document.cookie);
-    console.log(getCookie('ids'));
+//     console.log(document.cookie);
+//     console.log(getCookie('ids'));
 }
 
 //from w3schools
 function getCookie(cname) {
     let name = cname + "=";
     let ca = document.cookie.split(';');
-    console.log(ca);
     for(let i = 0; i < ca.length; i++) {
       let c = ca[i];
       while (c.charAt(0) == ' ') {
@@ -329,4 +334,14 @@ function getCookie(cname) {
       }
     }
     return "";
+  }
+
+  function replaceText(txt, reps)
+  {
+      txtfin = txt;
+      for(const index in reps)
+      {
+        txtfin = txtfin.replaceAll(reps[index][0], reps[index][1]);
+      }
+      return txtfin;
   }
