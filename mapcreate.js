@@ -68,9 +68,15 @@ chosen_id = order[day % number_cities];
 
 //INIT MAP
 
+
+var corner1 = L.latLng(90, -180);
+var corner2 = L.latLng(5, -35);
+var bounds = L.latLngBounds(corner1, corner2);
+
 var mapOptions = {
-    center: [38, -96],
-    zoom: 5
+    center: [40, -96],
+    zoom: 5,
+    maxBounds: bounds,
  }
 
  var map = new L.map('map', mapOptions);
@@ -81,7 +87,6 @@ var layer =  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     minZoom: 4,
 }).addTo(map);
 
-window.map = map;
 
 //INIT BUTTON ONCLICK | ENTER EVENT
 let button = id('guess');
@@ -262,31 +267,32 @@ function openHow()
     id('howtoplay').style.display = 'block';
 }
 
-function cookieIds()
-{
-    let idsOnly = ids.map(s => s[0]);
-    let guessesOnly = ids.map(s => s[2]);
-    let idsString = idsOnly.join('|');
-    let guessesString = guessesOnly.join('|');
-    let cookieString = `ids=${idsString}; guesses=${guessesString}; canGuess=${canGuess}; expires=${tom};path=/"`
-    document.cookie = cookieString; 
-    console.log(document.cookie);
-    console.log(getCookie('ids'));
-}
+//cookies for future
+// function cookieIds()
+// {
+//     let idsOnly = ids.map(s => s[0]);
+//     let guessesOnly = ids.map(s => s[2]);
+//     let idsString = idsOnly.join('|');
+//     let guessesString = guessesOnly.join('|');
+//     let cookieString = `ids=${idsString}; guesses=${guessesString}; canGuess=${canGuess}; expires=${tom};path=/"`
+//     document.cookie = cookieString; 
+//     console.log(document.cookie);
+//     console.log(getCookie('ids'));
+// }
 
-//from w3schools
-function getCookie(cname) {
-    let name = cname + "=";
-    let ca = document.cookie.split(';');
-    console.log(ca);
-    for(let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
-    }
-    return "";
-  }
+// //from w3schools
+// function getCookie(cname) {
+//     let name = cname + "=";
+//     let ca = document.cookie.split(';');
+//     console.log(ca);
+//     for(let i = 0; i < ca.length; i++) {
+//       let c = ca[i];
+//       while (c.charAt(0) == ' ') {
+//         c = c.substring(1);
+//       }
+//       if (c.indexOf(name) == 0) {
+//         return c.substring(name.length, c.length);
+//       }
+//     }
+//     return "";
+//   }
