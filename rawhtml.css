@@ -35,9 +35,35 @@ body {
     left: 0;
   }
 
+  select
+  {
+    height: 40px;
+    color: white;
+    background-color: #B31942;
+    border-radius: 5px;
+  }
+
+  option
+  {
+    background-color: white;
+    color: #B31942;
+  }
+
+  body::-webkit-scrollbar-track {
+    background: white;        /* color of the tracking area */
+  }
+  
+  body::-webkit-scrollbar-thumb {
+    background-color: #3c3b6e;    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */
+    border: 3px solid #B31942;  /* creates padding around scroll thumb */
+  }
+
   #enter
   {
+    border-radius:10px;
     width: 50%;
+    color: #3c3b6e;
     min-width: 300px;
     max-width: 600px;
     font-size: 24px;
@@ -47,9 +73,11 @@ body {
 
   #guess
   {
+    border-radius: 5px;
+    height: 40px;
     font-size: 24px;
-    color: #162344;
-    background-color: white;
+    background-color: #3c3b6e;
+    color:white;
     font-family: 'Trebuchet MS';
   }
 
@@ -67,8 +95,13 @@ body {
     width: 100%;
     top:0;
     left:0;
-    background-color: #16234477;
-    padding-bottom: 15px;
+    background-color: #162344aa;
+    padding-bottom: 10px;
+  }
+
+  #resp
+  {
+    padding-top:5px;
   }
 
   #counter
@@ -79,23 +112,21 @@ body {
     position: fixed; 
     bottom:0%; 
     left: 0%;
-    background-color: #ffffff77; 
-    border-top: 5px solid black;
-    border-right: 5px solid black;
+    background-color: #000000dd; 
     overflow-y: auto;
 
   }
 
   #guesses
   {
-    color: black;
+    color: white;
     width: 100%;
   }
 
   #guesses tr td
   {
     text-overflow: ellipsis;
-    color: black;
+    color: white;
   }
 
   #tr0
@@ -106,13 +137,58 @@ body {
 
   #byline
   {
-    margin:10px;
+    margin-top:10px;
+    margin-right:10px;
     position:fixed;
     top:0%;
     right:0%;
   }
 
-  #byline a
+  #openpar
+  {
+    margin-top:30px;
+    margin-right:10px;
+    position:fixed;
+    top:0%;
+    right:0%;
+  }
+
+
+  a
   {
     color: white;
+  }
+
+  #howtoplay
+  {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+
+    z-index: 4;
+    min-height: 300px;
+    min-width: 150px;
+    overflow-y: auto;
+    background-color: #000000;
+    border-radius: 30px;
+    border: solid black 2px;
+  }
+
+  #howtoplay li, ul
+  {
+    color: white;
+    text-align: left;
+  }
+
+  #closehow
+  {
+    display:block;
+    font-size:20px;
+    position: fixed;
+    top:20px;
+    right:20px;
+    color:#3c3b6e;
+    background-color: white;
   }

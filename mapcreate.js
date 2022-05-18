@@ -1,6 +1,6 @@
 //INIT CONSTANTS
 const c = uscities;
-const clen = Object.keys(uscities.city_ascii).length; //30k atm
+const clen = Object.keys(c.city_ascii).length; //30k atm
 const maxdist = 5000; //in km - to be used for color scaling
 const citynames = Array.from(Object.values(c.city_ascii));
 
@@ -12,14 +12,36 @@ const statenames = states.filter(onlyUnique).sort();
 
 ids = [];
 canGuess = true;
+howToPlay = true;
+
+//get largest population size by state
+// let largeCities = [];
+// for(const index in statenames)
+// {
+//     let larg = states.findIndex(x => x == statenames[index]);
+//     largeCities.push([statenames[index], citynames[larg], c.population[larg], larg]);
+// }
+
+// console.log(largeCities.sort((a, b) => a[2] - b[2]));
 
 
-//top 400 cities, not top 5
-chosen_id = 5 + Math.floor(Math.random()*395);
-while(c.state_id[chosen_id] == 'PR') // no PR cities - for now
+number_cities = 500;
+
+//equal-chance state randomizer
+let abr_statenames = states.slice(0,number_cities).filter(onlyUnique).sort();
+chosen_state = statenames[Math.floor(Math.random()*abr_statenames.length)];
+while(['Puerto Rico'].includes(chosen_state)) // no PR cities at the moment
 {
-    chosen_id = 5 + Math.floor(Math.random()*395);
+    chosen_state = statenames[Math.floor(Math.random()*statenames.length)];
 }
+
+//choose city with state as ID
+inChosenState = states.slice(0,number_cities)
+.map(function(s, index) {return [s == chosen_state, index]})
+.filter(s => s[0] == true)
+.map(s => s[1]);
+
+chosen_id = inChosenState[Math.floor(Math.random()*inChosenState.length)];
 
 
 //INIT MAP
@@ -51,6 +73,9 @@ enter.addEventListener("keypress", function(event) {
     }
   });
 
+  id('closehow').onclick = closeHow;
+  id('openhow').onclick = openHow;
+
 
 //SELECT BUTTONS
 id('states').innerHTML += '<option>Any state</option>';
@@ -64,6 +89,8 @@ for(const s in statenames)
 function checkMarker(){
     if(canGuess) 
     {
+        closeHow();
+
         //FIND CITY ID
         let state = id('states').value;
         let lowercities = citynames.map(x => x.toLowerCase());
@@ -102,11 +129,12 @@ function checkMarker(){
             addMarker(cityId);
             ids = ids.sort((a, b) => a[1] - b[1] ); //sort by closest km
             ids.unshift([cityId, getDistance(cityId, chosen_id), ids.length+1]); //show at top
-            inner = '<tr><th>Guess</th><th>City</th><th>Distance (km)</th></tr>';
+            inner = '<tr><th>Guess</th><th>City</th><th>Distance (mi)</th></tr>';
             for(const index in ids)
             {
-                inner += '<tr id="tr' + index + '"><td>' + ids[index][2] + '</td><td>' + c.city_ascii[ids[index][0]] + ", " 
-                + c.state_id[ids[index][0]] + '</td><td>' + ids[index][1] + '</td></tr>';
+                let fill = fillColor(ids[index][0], chosen_id);
+                inner += '<tr id="tr' + index + '"><td style="color:' + fill + '" >' + ids[index][2] + '</td><td style="color:' + fill + '" >' + c.city_ascii[ids[index][0]] + ", " 
+                + c.state_id[ids[index][0]] + '</td><td style="color:' + fill + '" >' + ids[index][1] + '</td></tr>';
             }
             id('guesses').innerHTML = inner;
             let pop = c.population[cityId].toString();
@@ -120,13 +148,13 @@ function checkMarker(){
         }
         else //found right city
         {
-            id('counter').style.backgroundColor="#00dd0077";
+            id('counter').style.backgroundColor="#00770077";
             canGuess = false;
             enter.value = ''; 
             addMarker(cityId);
             ids = ids.sort((a, b) => a[1] - b[1] ); //sort by closest km
             ids.unshift([cityId,  'FOUND!', ids.length+1]); //show at top
-            inner = '<tr><th>Guess</th><th>City</th><th>Distance (km)</th></tr>';
+            inner = '<tr><th>Guess</th><th>City</th><th>Distance (mi)</th></tr>';
             for(const index in ids)
             {
                 inner += '<tr id="tr' + index + '"><td>' + ids[index][2] + '</td><td>' + c.city_ascii[ids[index][0]] + ", " 
@@ -153,7 +181,7 @@ function addMarker(i) {
         fillOpacity: 1,
         radius: 4
     }).addTo(map);
-    var st = "#" + (ids.length+1) + ": " + c.city_ascii[i] + ", " + c.state_id[i] + "<br/>" + getDistance(i, chosen_id) + 'km';
+    var st = "#" + (ids.length+1) + ": " + c.city_ascii[i] + ", " + c.state_id[i] + "<br/>" + getDistance(i, chosen_id) + 'mi';
     circle.bindPopup(st).addTo(map).openPopup();
 }
 
@@ -174,14 +202,14 @@ function getDistance(i1, i2) {
             Math.sin(deltalamb/2) * Math.sin(deltalamb/2);
     const co = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
-    const d = R * co; // in km
+    const d = R * co * 0.621371; // in mi
     return Math.round(d);
 }
 
 function fillColor(id, chosen_id) //construct hexcode for color here - do later
 {
     let distance = getDistance(id, chosen_id);
-    let val = Math.min(250, Math.round(distance/6) - 250);
+    let val = Math.min(250, Math.round(distance/3.1) - 250);
     if(val > 0) //far - redder
     {
         color = '#fa' + ((250-val) < 16 ? '0' : '') + (250-val).toString(16) + '00';
@@ -199,4 +227,14 @@ function thousandCities()
     {
         addMarker(j);
     }
+}
+
+function closeHow()
+{
+    id('howtoplay').style.display = 'none';
+}
+
+function openHow()
+{
+    id('howtoplay').style.display = 'block';
 }
