@@ -185,7 +185,7 @@ body {
     color: white;
   }
 
-  #howtoplay
+  #howtoplay, #share
   {
     position: absolute;
     left: 50%;
@@ -195,7 +195,7 @@ body {
 
     z-index: 4;
     min-height: 300px;
-    min-width: 150px;
+    min-width: 250px;
     max-height: 50%;
     max-width: 50%;
     overflow-y: auto;
@@ -210,7 +210,7 @@ body {
     text-align: left;
   }
 
-  #closehow
+  #closehow, #closeshare
   {
     display:block;
     font-size:20px;
@@ -234,3 +234,16 @@ body {
     color: lightgreen;
   }
 
+#sharebutton
+{
+  font-family: 'Trebuchet MS';
+  font-size: 24px;
+  background-color: green;
+  border-radius: 10px;
+}
+
+#sharepar
+{
+  color: white;
+  margin: 20px;
+}

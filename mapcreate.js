@@ -56,6 +56,8 @@ chosen_id = order[day % number_cities];
 reps = [['st ', 'st. '], ['saint ', 'st. '], ['mt. ', 'mount '], ['mt ', 'mount ']];
 
 
+id('share').style.display = 'none';
+
 // //equal-chance state randomizer
 // let abr_statenames = states.slice(0,number_cities).filter(onlyUnique).sort();
 // chosen_state = statenames[Math.floor(Math.random()*abr_statenames.length)];
@@ -108,8 +110,9 @@ enter.addEventListener("keypress", function(event) {
   });
 
   id('closehow').onclick = closeHow;
+  id('closeshare').onclick = closeShare;
   id('openhow').onclick = openHow;
-
+  id('sharebutton').onclick = share;
 
 //SELECT BUTTONS
 id('states').innerHTML += '<option>Any state</option>';
@@ -238,6 +241,7 @@ function checkMarker(){
             id('resp').innerHTML = 'You win in ' + ids.length + ' guesses!';
             cookieIds(); //save to cookie
             enter.placeholder = 'Well done!';
+            openShare();
         }
     }
 }
@@ -309,6 +313,7 @@ function thousandCities()
 
 function closeHow()
 {
+    closeShare();
     id('howtoplay').style.display = 'none';
     if(firstTime)
     {
@@ -370,3 +375,35 @@ function getCookie(cname) {
       }
       return txtfin;
   }
+
+function share() {
+    let str = document.getElementById('sharepar').innerHTML;
+    //modify string here
+    str = str.replace(new RegExp('<[a-z/]*>', 'g'), '');
+    str += "\nhttps://americle.brandon-kaminski.tech";
+
+    const el = document.createElement('textarea');
+    el.value = str;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    id('sharebutton').innerHTML = 'Copied!';
+  }
+
+function closeShare()
+{
+    id('share').style.display = 'none';
+}
+
+function openShare()
+{
+    closeHow();
+    console.log(ids.map(s => s[1] == 'FOUND!' ? 0 : s[1]));
+    id('sharepar').innerHTML = 
+`<b>🇺🇸 Americle #${day+1}: ${(geoMode ? 'Geographer' : 'Normal') + " Mode"} 🇺🇸 </b><br/>
+Number of guesses: ${ids.length}<br/>
+Avg. guess distance: ${Math.round(ids.map(s => s[1] == 'FOUND!' ? 0 : s[1]).reduce((p, c) => p + c, 0)/ids.length)} mi<br/>
+Closest incorrect guess: ${ids.length == 1 ? 'None' : ids[1][1] + ' mi'}`;
+    id('share').style.display = 'block';
+}
