@@ -4,4 +4,4 @@ My spin on the Wordle craze! Guess American cities until you get the right one. 
 
 Happy playing!
 
-[https://americle.brandon-kaminski.tech/]
+https://americle.brandon-kaminski.tech/
